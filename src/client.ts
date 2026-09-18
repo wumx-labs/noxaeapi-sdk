@@ -7,6 +7,7 @@ import { PluginsModule } from "./modules/plugins.js";
 import { AdvancementsModule, PlaceholdersModule } from "./modules/misc.js";
 import { LuckPermsModule } from "./modules/luckperms.js";
 import { NoxAuthModule } from "./modules/noxauth.js";
+import { IdentityModule } from "./modules/identity.js";
 import { SkillsModule } from "./modules/skills.js";
 import { LeaderboardModule } from "./modules/leaderboard.js";
 import { NetworkModule } from "./modules/network.js";
@@ -15,6 +16,7 @@ import { NoxAeApiSocket, type NoxAeApiWsOptions } from "./socket.js";
 
 export class NoxAeApiClient {
   readonly players: PlayersModule;
+  readonly identity: IdentityModule;
   readonly economy: EconomyModule;
   readonly server: ServerModule;
   readonly worlds: WorldsModule;
@@ -52,6 +54,7 @@ export class NoxAeApiClient {
     this.apiKey = options.apiKey;
 
     this.players = new PlayersModule(this.http);
+    this.identity = new IdentityModule(this.http);
     this.economy = new EconomyModule(this.http);
     this.server = new ServerModule(this.http);
     this.worlds = new WorldsModule(this.http);

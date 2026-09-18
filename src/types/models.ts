@@ -37,6 +37,21 @@ export interface PlayerResolveResult {
   uuid: string;
 }
 
+export interface IdentityServerInfo {
+  id: string;
+  label: string;
+}
+
+/** Result of resolving player identity via `GET /v1/identity/{name}`. */
+export interface IdentityInfo {
+  username: string;
+  identityUuid: string;
+  localUuid: string | null;
+  server: IdentityServerInfo;
+  onlineMode: boolean;
+  hasPlayedBefore: boolean;
+}
+
 export interface ServerHealth {
   cpus: number;
   uptime: number;

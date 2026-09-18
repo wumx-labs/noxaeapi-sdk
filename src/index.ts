@@ -19,10 +19,14 @@ export {
   NoxAeApiNetworkError,
 } from "./errors.js";
 
+export { IdentityModule } from "./modules/identity.js";
+
 export type {
   OnlinePlayer,
   OfflinePlayer,
   PlayerResolveResult,
+  IdentityServerInfo,
+  IdentityInfo,
   ServerHealth,
   ServerBan,
   WhitelistEntry,

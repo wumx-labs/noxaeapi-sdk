@@ -31,7 +31,10 @@ const coins = await client.economy.getCurrencyBalance("coins", players[0].uuid);
 const top = await client.leaderboards.getTop("mcmmo-power", 10);
 const network = await client.network.statusAll();
 
-// Resolve a name to a UUID, then get their one-call profile (identity,
+// Cross-server network identity (deterministic identityUuid + local server status):
+const identity = await client.identity.get("NoxlyDev");
+
+// Resolve a name to a local UUID, then get their one-call profile (identity,
 // ban/whitelist status, Vault balance, and every leaderboard entry at once):
 const { uuid } = await client.players.resolve("NoxlyDev");
 const profile = await client.leaderboards.getPlayerProfile(uuid);
