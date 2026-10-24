@@ -1,0 +1,7 @@
+CHANGELOG.md
+.changelogs
+src
+tsconfig.json
+tsup.config.ts
+.env*
+*.log

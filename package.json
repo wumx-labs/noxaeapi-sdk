@@ -17,8 +17,7 @@
     }
   },
   "files": [
-    "dist",
-    "CHANGELOG.md"
+    "dist"
   ],
   "sideEffects": false,
   "scripts": {
