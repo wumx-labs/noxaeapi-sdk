@@ -5,6 +5,11 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.6.1] - 2026-10-24
+* Excluded internal changelog files and developer documentation from published npm tarball for a leaner package footprint.
+
+---
+
 ## [0.6.0] - 2026-10-24
 
 ### 🚀 Major Additions — 16 Plugin Integrations Suite
