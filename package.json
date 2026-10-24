@@ -1,6 +1,6 @@
 {
   "name": "@wumx-labs/noxaeapi-sdk",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Typed JS/TS SDK for the NoxAeApi REST + WebSocket API (Fabric, Bukkit/Spigot/Paper) and the NoxAeApi-Velocity network hub",
   "type": "module",
   "publishConfig": {
@@ -17,7 +17,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "sideEffects": false,
   "scripts": {

@@ -114,16 +114,42 @@ Javalin handler uses before wiring it up, and pass `form: true` to
 case). Getting this wrong won't throw a type error — the request just
 silently sends the wrong content type and the server won't see the field.
 
-## Optional modules
+## Optional modules & Integrations
 
-Some modules only work depending on the target server's setup:
+Some modules and external integrations depend on plugins loaded on the target server:
 
-- `client.luckperms.*` — requires the LuckPerms mod to be loaded on the server
-- `client.noxauth.*` — requires `noxauth.enabled: true` in the server's `noxaeapi-config.yml`
-- `client.economy.getCurrencyBalance()`/`.payCurrency()`/`.debitCurrency()`/`.setCurrencyBalance()`/`.getCurrencyTop()`/`.listCurrencies()` — requires ExcellentEconomy (throws a 424 error if it isn't installed)
-- `client.network.*` — requires `network.enabled: true` with at least one backend server configured in the server's config
+- `client.luckperms.*` — requires LuckPerms
+- `client.noxauth.*` — requires `noxauth.enabled: true`
+- `client.economy.getCurrencyBalance()`/`.payCurrency()`/... — requires ExcellentEconomy
+- `client.network.*` — requires `network.enabled: true` with backend nodes configured
 
-Calling these against a server without the corresponding feature enabled will fail (typically 404).
+### Plugin Integrations Suite (`client.integrations.*` / top-level shortcuts)
+
+NoxAeApi 1.5.0 supports deep integration with standard Spigot/Paper plugins:
+
+- **Auth**:
+  - `client.authme` (`client.integrations.authme`) — AuthMe Reloaded player info & password validation
+  - `client.fastlogin` (`client.integrations.fastlogin`) — FastLogin premium / Mojang-verified status
+  - `client.nlogin` (`client.integrations.nlogin`) — nLogin player authentication & registration status
+  - `client.loginsecurity` (`client.integrations.loginsecurity`) — LoginSecurity auth status
+- **Clans & Teams**:
+  - `client.betterteams` (`client.integrations.betterteams`) — Player teams, team details, and paginated team listings
+- **Server Utility**:
+  - `client.essentials` (`client.integrations.essentials`) — Player homes, server warps, and player info (afk, muted, godmode)
+  - `client.discordsrv` (`client.integrations.discordsrv`) — Discord linked account lookups and channel broadcasts
+  - `client.plan` (`client.integrations.plan`) — Player Analytics (Plan) player session and activity summaries
+  - `client.geyser` (`client.integrations.geyser`) — Geyser / Floodgate Bedrock player detection, XUID, and OS
+  - `client.tab` (`client.integrations.tab`) — TAB prefix/suffix reading and custom nametag updates
+- **Economy & Protection**:
+  - `client.playerpoints` (`client.integrations.playerpoints`) — PlayerPoints balance check, pay, take, and set
+  - `client.griefprevention` (`client.integrations.griefprevention`) — Player claims and coordinate claim inspections
+  - `client.worldguard` (`client.integrations.worldguard`) — Region boundaries, flags, and world listings
+  - `client.coreprotect` (`client.integrations.coreprotect`) — Block / action audit logs and rollback history lookup
+  - `client.shopgui` (`client.integrations.shopgui`) — ShopGUIPlus shop catalogs and item pricing details
+- **Custom Content**:
+  - `client.mythicmobs` (`client.integrations.mythicmobs`) — Mob catalog listing and coordinate-based mob spawning
+
+Calling integration endpoints when the corresponding backing plugin is not installed will safely return a 503 Service Unavailable error.
 
 ## NoxAeApi-Velocity network hub
 

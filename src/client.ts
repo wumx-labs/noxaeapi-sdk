@@ -12,6 +12,25 @@ import { SkillsModule } from "./modules/skills.js";
 import { LeaderboardModule } from "./modules/leaderboard.js";
 import { NetworkModule } from "./modules/network.js";
 import { NetworkHubModule } from "./modules/network-hub.js";
+import {
+  IntegrationsModule,
+  AuthMeModule,
+  FastLoginModule,
+  NLoginModule,
+  LoginSecurityModule,
+  BetterTeamsModule,
+  EssentialsModule,
+  GriefPreventionModule,
+  DiscordSRVModule,
+  PlayerPointsModule,
+  WorldGuardModule,
+  PlanModule,
+  GeyserModule,
+  MythicMobsModule,
+  TabModule,
+  CoreProtectModule,
+  ShopGuiModule,
+} from "./modules/integrations.js";
 import { NoxAeApiSocket, type NoxAeApiWsOptions } from "./socket.js";
 
 export class NoxAeApiClient {
@@ -44,6 +63,25 @@ export class NoxAeApiClient {
    */
   readonly network: NetworkModule;
 
+  /** Comprehensive external plugin integrations suite. */
+  readonly integrations: IntegrationsModule;
+  readonly authme: AuthMeModule;
+  readonly fastlogin: FastLoginModule;
+  readonly nlogin: NLoginModule;
+  readonly loginsecurity: LoginSecurityModule;
+  readonly betterteams: BetterTeamsModule;
+  readonly essentials: EssentialsModule;
+  readonly griefprevention: GriefPreventionModule;
+  readonly discordsrv: DiscordSRVModule;
+  readonly playerpoints: PlayerPointsModule;
+  readonly worldguard: WorldGuardModule;
+  readonly plan: PlanModule;
+  readonly geyser: GeyserModule;
+  readonly mythicmobs: MythicMobsModule;
+  readonly tab: TabModule;
+  readonly coreprotect: CoreProtectModule;
+  readonly shopgui: ShopGuiModule;
+
   private readonly http: HttpEngine;
   private readonly baseUrl: string;
   private readonly apiKey?: string;
@@ -66,6 +104,24 @@ export class NoxAeApiClient {
     this.skills = new SkillsModule(this.http);
     this.leaderboards = new LeaderboardModule(this.http);
     this.network = new NetworkModule(this.http);
+
+    this.integrations = new IntegrationsModule(this.http);
+    this.authme = this.integrations.authme;
+    this.fastlogin = this.integrations.fastlogin;
+    this.nlogin = this.integrations.nlogin;
+    this.loginsecurity = this.integrations.loginsecurity;
+    this.betterteams = this.integrations.betterteams;
+    this.essentials = this.integrations.essentials;
+    this.griefprevention = this.integrations.griefprevention;
+    this.discordsrv = this.integrations.discordsrv;
+    this.playerpoints = this.integrations.playerpoints;
+    this.worldguard = this.integrations.worldguard;
+    this.plan = this.integrations.plan;
+    this.geyser = this.integrations.geyser;
+    this.mythicmobs = this.integrations.mythicmobs;
+    this.tab = this.integrations.tab;
+    this.coreprotect = this.integrations.coreprotect;
+    this.shopgui = this.integrations.shopgui;
   }
 
   /**

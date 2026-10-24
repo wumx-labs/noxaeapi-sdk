@@ -445,3 +445,223 @@ export interface NetworkHubFindPlayerResponse {
 export interface NetworkHubBroadcastResponse {
   delivered: number;
 }
+
+// ─── Plugin Integrations (Phase 2 - Phase 6) ──────────────────────────────
+
+export interface AuthMePlayerInfo {
+  name: string;
+  uuid: string;
+  registered: boolean;
+  authenticated: boolean;
+  lastIp: string;
+  lastLoginTime: number;
+}
+
+export interface FastLoginPlayerInfo {
+  name: string;
+  uuid: string;
+  premium: boolean;
+}
+
+export interface NLoginPlayerInfo {
+  name: string;
+  uuid: string;
+  registered: boolean;
+  authenticated: boolean;
+}
+
+export interface LoginSecurityPlayerInfo {
+  name: string;
+  uuid: string;
+  registered: boolean;
+  authenticated: boolean;
+}
+
+export interface BetterTeamsSummary {
+  name: string;
+  tag: string;
+  description: string;
+  score: number;
+  money: number;
+  level: number;
+  memberCount: number;
+  [key: string]: unknown;
+}
+
+export interface BetterTeamsDetail extends BetterTeamsSummary {
+  members: string[];
+}
+
+export interface BetterTeamsListResponse {
+  page: number;
+  limit: number;
+  total: number;
+  teams: BetterTeamsSummary[];
+}
+
+export interface EssentialsHomeLocation {
+  name: string;
+  world: string;
+  x: number;
+  y: number;
+  z: number;
+  yaw?: number;
+  pitch?: number;
+}
+
+export interface EssentialsPlayerHomesResponse {
+  player: string;
+  homes: EssentialsHomeLocation[];
+}
+
+export interface EssentialsWarpsResponse {
+  total: number;
+  warps: string[];
+}
+
+export interface EssentialsPlayerInfo {
+  player: string;
+  nickname?: string;
+  afk: boolean;
+  muted: boolean;
+  jailed: boolean;
+  godMode: boolean;
+  [key: string]: unknown;
+}
+
+export interface GriefPreventionClaim {
+  id?: number | string;
+  owner?: string;
+  ownerUuid?: string;
+  world?: string;
+  greaterBoundary?: { x: number; y: number; z: number };
+  lesserBoundary?: { x: number; y: number; z: number };
+  area?: number;
+  [key: string]: unknown;
+}
+
+export interface GriefPreventionClaimsResponse {
+  uuid: string;
+  total: number;
+  claims: GriefPreventionClaim[];
+}
+
+export interface DiscordSRVLinkedResponse {
+  uuid: string;
+  discordId: string;
+}
+
+export interface DiscordSRVBroadcastResponse {
+  success: boolean;
+  channel: string;
+  message: string;
+}
+
+export interface PlayerPointsBalanceResponse {
+  uuid: string;
+  points: number;
+}
+
+export interface PlayerPointsTransactionResult {
+  uuid: string;
+  amount: number;
+  success: boolean;
+  currentBalance: number;
+}
+
+export interface WorldGuardRegion {
+  id: string;
+  type?: string;
+  priority?: number;
+  owners?: string[];
+  members?: string[];
+  flags?: Record<string, unknown>;
+  min?: { x: number; y: number; z: number };
+  max?: { x: number; y: number; z: number };
+  [key: string]: unknown;
+}
+
+export interface PlanPlayerSummary {
+  uuid: string;
+  [key: string]: unknown;
+}
+
+export interface GeyserPlayerInfo {
+  bedrock: boolean;
+  xuid?: string;
+  deviceOs?: string;
+  version?: string;
+  [key: string]: unknown;
+}
+
+export interface MythicMobsListResponse {
+  total: number;
+  mobs: string[];
+}
+
+export interface MythicMobSpawnOptions {
+  type: string;
+  world: string;
+  x: number;
+  y: number;
+  z: number;
+  level?: number;
+}
+
+export interface MythicMobSpawnResponse {
+  success: boolean;
+  type: string;
+  world: string;
+  x: number;
+  y: number;
+  z: number;
+  level: number;
+}
+
+export interface TabNametagResponse {
+  uuid: string;
+  prefix: string;
+  suffix: string;
+  success?: boolean;
+}
+
+export interface CoreProtectLookupOptions {
+  time?: number;
+  user?: string;
+  limit?: number;
+}
+
+export interface CoreProtectLookupEntry {
+  time?: number;
+  user?: string;
+  action?: string | number;
+  type?: string;
+  world?: string;
+  x?: number;
+  y?: number;
+  z?: number;
+  [key: string]: unknown;
+}
+
+export interface CoreProtectLookupResponse {
+  total: number;
+  timeWindowSeconds: number;
+  userFilter: string;
+  results: CoreProtectLookupEntry[];
+}
+
+export interface ShopGuiSummary {
+  id: string;
+  name?: string;
+  [key: string]: unknown;
+}
+
+export interface ShopGuiListResponse {
+  total: number;
+  shops: ShopGuiSummary[];
+}
+
+export interface ShopGuiShopDetail {
+  id: string;
+  [key: string]: unknown;
+}
