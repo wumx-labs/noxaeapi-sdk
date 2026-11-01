@@ -1,4 +1,4 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type {
   AuthMePlayerInfo,
   BetterTeamsDetail,
@@ -24,6 +24,12 @@ import type {
   PlanPlayerSummary,
   PlayerPointsBalanceResponse,
   PlayerPointsTransactionResult,
+  RankForgePlayerStats,
+  RankForgePointsResponse,
+  RankForgePointsTransactionResult,
+  RankForgeSaveResponse,
+  RankForgeTier,
+  RankForgeTopEntry,
   ShopGuiListResponse,
   ShopGuiShopDetail,
   TabNametagResponse,
@@ -31,7 +37,7 @@ import type {
 } from "../types/models.js";
 
 export class AuthMeModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets AuthMe player auth details (registered, authenticated, lastIp, lastLoginTime). */
   getPlayerAuth(name: string): Promise<AuthMePlayerInfo> {
@@ -49,7 +55,7 @@ export class AuthMeModule {
 }
 
 export class FastLoginModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Checks if a player is running on a premium (Mojang-authenticated) account via FastLogin. */
   getPlayerInfo(name: string): Promise<FastLoginPlayerInfo> {
@@ -58,7 +64,7 @@ export class FastLoginModule {
 }
 
 export class NLoginModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets nLogin authentication and registration status for a player. */
   getPlayerAuth(name: string): Promise<NLoginPlayerInfo> {
@@ -67,7 +73,7 @@ export class NLoginModule {
 }
 
 export class LoginSecurityModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets LoginSecurity authentication and registration status for a player. */
   getPlayerAuth(name: string): Promise<LoginSecurityPlayerInfo> {
@@ -76,7 +82,7 @@ export class LoginSecurityModule {
 }
 
 export class BetterTeamsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets the team summary for a player by UUID or player name. */
   getPlayerTeam(uuidOrName: string): Promise<BetterTeamsSummary> {
@@ -97,7 +103,7 @@ export class BetterTeamsModule {
 }
 
 export class EssentialsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets a player's home coordinates and list from Essentials. */
   getPlayerHomes(name: string): Promise<EssentialsPlayerHomesResponse> {
@@ -116,7 +122,7 @@ export class EssentialsModule {
 }
 
 export class GriefPreventionModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets all claims owned by a player by UUID. */
   getPlayerClaims(uuid: string): Promise<GriefPreventionClaimsResponse> {
@@ -132,7 +138,7 @@ export class GriefPreventionModule {
 }
 
 export class DiscordSRVModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets Discord user ID linked to a Minecraft player UUID. */
   getLinked(uuid: string): Promise<DiscordSRVLinkedResponse> {
@@ -148,7 +154,7 @@ export class DiscordSRVModule {
 }
 
 export class PlayerPointsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets points balance for a player UUID. */
   getBalance(uuid: string): Promise<PlayerPointsBalanceResponse> {
@@ -178,7 +184,7 @@ export class PlayerPointsModule {
 }
 
 export class WorldGuardModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets all WorldGuard regions across all loaded worlds. */
   getAllRegions(): Promise<Record<string, WorldGuardRegion[]>> {
@@ -195,7 +201,7 @@ export class WorldGuardModule {
 }
 
 export class PlanModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets analytics summary for a player from Player Analytics (Plan). */
   getPlayerSummary(uuid: string): Promise<PlanPlayerSummary> {
@@ -204,7 +210,7 @@ export class PlanModule {
 }
 
 export class GeyserModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Checks Bedrock status, XUID, and device info for a player via Geyser/Floodgate. */
   getPlayerInfo(uuid: string): Promise<GeyserPlayerInfo> {
@@ -213,7 +219,7 @@ export class GeyserModule {
 }
 
 export class MythicMobsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets all registered custom mob types from MythicMobs. */
   getMobs(): Promise<MythicMobsListResponse> {
@@ -229,7 +235,7 @@ export class MythicMobsModule {
 }
 
 export class TabModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets custom nametag prefix/suffix for a player from TAB. */
   getNametag(uuid: string): Promise<TabNametagResponse> {
@@ -248,7 +254,7 @@ export class TabModule {
 }
 
 export class CoreProtectModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Performs block and action history lookup via CoreProtect. */
   lookup(options: CoreProtectLookupOptions = {}): Promise<CoreProtectLookupResponse> {
@@ -263,7 +269,7 @@ export class CoreProtectModule {
 }
 
 export class ShopGuiModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Gets all configured shops from ShopGUIPlus. */
   getShops(): Promise<ShopGuiListResponse> {
@@ -273,6 +279,58 @@ export class ShopGuiModule {
   /** Gets details of a specific shop by shop ID from ShopGUIPlus. */
   getShop(id: string): Promise<ShopGuiShopDetail> {
     return this.http.request("GET", `shopgui/shop/${encodeURIComponent(id)}`);
+  }
+}
+
+export class RankForgeModule {
+  constructor(private readonly http: HttpRequester) {}
+
+  /** Gets full PvP stats for a player (points, kills, deaths, KD, tier info). */
+  getPlayerStats(uuid: string): Promise<RankForgePlayerStats> {
+    return this.http.request("GET", `rankforge/player/${encodeURIComponent(uuid)}`);
+  }
+
+  /** Gets current RankForge points for a player. */
+  getPoints(uuid: string): Promise<RankForgePointsResponse> {
+    return this.http.request("GET", `rankforge/player/${encodeURIComponent(uuid)}/points`);
+  }
+
+  /** Sets RankForge points for a player to an exact amount. */
+  setPoints(uuid: string, amount: number): Promise<RankForgePointsTransactionResult> {
+    return this.http.request("POST", `rankforge/player/${encodeURIComponent(uuid)}/points/set`, {
+      body: { amount },
+    });
+  }
+
+  /** Adds RankForge points to a player. */
+  addPoints(uuid: string, amount: number): Promise<RankForgePointsTransactionResult> {
+    return this.http.request("POST", `rankforge/player/${encodeURIComponent(uuid)}/points/add`, {
+      body: { amount },
+    });
+  }
+
+  /** Removes RankForge points from a player. */
+  removePoints(uuid: string, amount: number): Promise<RankForgePointsTransactionResult> {
+    return this.http.request("POST", `rankforge/player/${encodeURIComponent(uuid)}/points/remove`, {
+      body: { amount },
+    });
+  }
+
+  /** Gets all registered RankForge tiers. */
+  getTiers(): Promise<RankForgeTier[]> {
+    return this.http.request("GET", "rankforge/tiers");
+  }
+
+  /** Gets top players by RankForge points. */
+  getTop(limit: number = 10): Promise<RankForgeTopEntry[]> {
+    return this.http.request("GET", "rankforge/top", {
+      query: { limit },
+    });
+  }
+
+  /** Triggers async save of all RankForge player data. */
+  save(): Promise<RankForgeSaveResponse> {
+    return this.http.request("POST", "rankforge/save");
   }
 }
 
@@ -296,8 +354,9 @@ export class IntegrationsModule {
   readonly tab: TabModule;
   readonly coreprotect: CoreProtectModule;
   readonly shopgui: ShopGuiModule;
+  readonly rankforge: RankForgeModule;
 
-  constructor(http: HttpEngine) {
+  constructor(http: HttpRequester) {
     this.authme = new AuthMeModule(http);
     this.fastlogin = new FastLoginModule(http);
     this.nlogin = new NLoginModule(http);
@@ -314,5 +373,6 @@ export class IntegrationsModule {
     this.tab = new TabModule(http);
     this.coreprotect = new CoreProtectModule(http);
     this.shopgui = new ShopGuiModule(http);
+    this.rankforge = new RankForgeModule(http);
   }
 }

@@ -1,8 +1,8 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type { ServerInfo, WhitelistEntry } from "../types/models.js";
 
 export class ServerModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Basic liveness check. */
   ping(): Promise<{ status: string }> {

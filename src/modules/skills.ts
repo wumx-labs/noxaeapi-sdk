@@ -1,11 +1,11 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type { SkillInfo } from "../types/models.js";
 
 /**
  * Wraps the `/v1/skills/*` routes (mcMMO / AuraSkills).
  */
 export class SkillsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /**
    * Get mcMMO skill levels and power level for a player.

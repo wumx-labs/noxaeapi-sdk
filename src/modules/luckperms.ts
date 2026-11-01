@@ -1,4 +1,4 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type {
   GroupInfo,
   LuckPermsCheckPermissionResult,
@@ -56,7 +56,7 @@ export interface SetMetaValueOptions extends LuckPermsContextOptions {
  * and omit them for a global node.
  */
 export class LuckPermsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   // ---------------------------------------------------------------
   // Player permissions & groups

@@ -1,4 +1,4 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type { NoxAuthPlayerInfo, PasswordCheckResult } from "../types/models.js";
 
 /**
@@ -11,7 +11,7 @@ import type { NoxAuthPlayerInfo, PasswordCheckResult } from "../types/models.js"
  * `ctx.formParam(...)`) — do not add `form: true` to that call.
  */
 export class NoxAuthModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Get NoxAuth registration/auth info for a player by name. */
   getPlayerAuth(name: string): Promise<NoxAuthPlayerInfo> {

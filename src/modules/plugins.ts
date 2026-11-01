@@ -1,8 +1,8 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type { Plugin } from "../types/models.js";
 
 export class PluginsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** List all installed plugins/mods. */
   list(): Promise<Plugin[]> {

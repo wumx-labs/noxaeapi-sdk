@@ -1,4 +1,4 @@
-import type { HttpEngine, QueryValue } from "../http-engine.js";
+import type { HttpRequester, QueryValue } from "../http-engine.js";
 import type {
   NetworkFindPlayerResponse,
   NetworkHealthResponse,
@@ -18,7 +18,7 @@ import type {
  * the server you connected to.
  */
 export class NetworkModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Get status (server info + online players) for every configured network server. */
   statusAll(): Promise<{ network: NetworkServerStatus[] }> {

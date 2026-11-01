@@ -1,8 +1,8 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type { World } from "../types/models.js";
 
 export class WorldsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** List all worlds. */
   list(): Promise<World[]> {

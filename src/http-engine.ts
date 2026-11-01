@@ -50,7 +50,40 @@ function backoffDelay(attempt: number, opts: Required<RetryOptions>): number {
 
 export type QueryValue = string | number | boolean | null | undefined;
 
-export class HttpEngine {
+export interface HttpRequestOptions {
+  body?: unknown;
+  query?: Record<string, QueryValue>;
+  /**
+   * Encode `body` as `application/x-www-form-urlencoded` (Javalin's
+   * `ctx.formParam(...)`) instead of JSON. Most NoxAeApi endpoints
+   * expect form-urlencoded bodies — only the LuckPerms and NoxAuth
+   * routes use `ctx.bodyAsClass(...)` and need real JSON. Defaults to
+   * `false` (JSON) to preserve existing behavior; each module call
+   * site is responsible for passing `form: true` where the server
+   * actually expects it.
+   */
+  form?: boolean;
+}
+
+/**
+ * The shape every SDK module actually depends on — just `request()`.
+ * Every module file types its constructor against this interface
+ * instead of the concrete `HttpEngine` class, so an unrelated
+ * `HttpRequester` implementation (e.g. `ForwardingHttpEngine` in
+ * `hub-node.ts`, which reroutes through a network hub's `forward()`
+ * instead of an actual `fetch`) can be swapped in and every module —
+ * present and future — works against it transparently, with zero
+ * duplicated per-module logic.
+ */
+export interface HttpRequester {
+  request<T>(
+    method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
+    path: string,
+    opts?: HttpRequestOptions,
+  ): Promise<T>;
+}
+
+export class HttpEngine implements HttpRequester {
   private readonly baseUrl: string;
   private readonly apiKey?: string;
   private readonly timeoutMs: number;
@@ -101,20 +134,7 @@ export class HttpEngine {
   async request<T>(
     method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
     path: string,
-    opts: {
-      body?: unknown;
-      query?: Record<string, QueryValue>;
-      /**
-       * Encode `body` as `application/x-www-form-urlencoded` (Javalin's
-       * `ctx.formParam(...)`) instead of JSON. Most NoxAeApi endpoints
-       * expect form-urlencoded bodies — only the LuckPerms and NoxAuth
-       * routes use `ctx.bodyAsClass(...)` and need real JSON. Defaults to
-       * `false` (JSON) to preserve existing behavior; each module call
-       * site is responsible for passing `form: true` where the server
-       * actually expects it.
-       */
-      form?: boolean;
-    } = {},
+    opts: HttpRequestOptions = {},
   ): Promise<T> {
     const url = this.buildUrl(path, opts.query);
     const maxAttempts = this.retry ? this.retry.attempts : 1;

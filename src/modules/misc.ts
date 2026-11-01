@@ -1,8 +1,8 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type { Advancement } from "../types/models.js";
 
 export class AdvancementsModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** List all advancements known to the server. */
   list(): Promise<Advancement[]> {
@@ -11,7 +11,7 @@ export class AdvancementsModule {
 }
 
 export class PlaceholdersModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /**
    * Replace PlaceholderAPI-style placeholders (e.g. "%player_name%") in

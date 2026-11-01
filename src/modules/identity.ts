@@ -1,4 +1,4 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type { IdentityInfo } from "../types/models.js";
 
 /**
@@ -9,7 +9,7 @@ import type { IdentityInfo } from "../types/models.js";
  * this server's localUuid).
  */
 export class IdentityModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /**
    * Resolves a player's network-wide identity and local UUID status.

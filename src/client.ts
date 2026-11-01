@@ -30,8 +30,10 @@ import {
   TabModule,
   CoreProtectModule,
   ShopGuiModule,
+  RankForgeModule,
 } from "./modules/integrations.js";
 import { NoxAeApiSocket, type NoxAeApiWsOptions } from "./socket.js";
+import { NoxAeApiHubNodeClient } from "./hub-node.js";
 
 export class NoxAeApiClient {
   readonly players: PlayersModule;
@@ -81,6 +83,8 @@ export class NoxAeApiClient {
   readonly tab: TabModule;
   readonly coreprotect: CoreProtectModule;
   readonly shopgui: ShopGuiModule;
+  /** RankForge PvP ranking integration (requires RankForge soft-dep). */
+  readonly rankforge: RankForgeModule;
 
   private readonly http: HttpEngine;
   private readonly baseUrl: string;
@@ -122,6 +126,7 @@ export class NoxAeApiClient {
     this.tab = this.integrations.tab;
     this.coreprotect = this.integrations.coreprotect;
     this.shopgui = this.integrations.shopgui;
+    this.rankforge = this.integrations.rankforge;
   }
 
   /**
@@ -178,6 +183,22 @@ export class NoxAeApiNetworkHubClient {
   constructor(options: NoxAeApiClientOptions) {
     const http = new HttpEngine(options);
     this.network = new NetworkHubModule(http);
+  }
+
+  /**
+   * Get a client for one specific backend node, id-addressed instead of
+   * URL-addressed — same modules as a direct `NoxAeApiClient`
+   * (`players`, `economy`, `leaderboards`, ...), but every call is routed
+   * through this hub's `network.forward()` rather than a direct HTTP
+   * request to that node. Lets you use account/economy/leaderboard-style
+   * commands anywhere on the network purely by node ID, without Velocity
+   * (or the caller) needing that node's own base URL or API key at all.
+   *
+   * Purely a local object construction — doesn't hit the network or
+   * validate the ID. Get valid IDs from `network.statusAll()`.
+   */
+  node(id: string): NoxAeApiHubNodeClient {
+    return new NoxAeApiHubNodeClient(this.network, id);
   }
 
   /**

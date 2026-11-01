@@ -1,5 +1,12 @@
 export { NoxAeApiClient, NoxAeApiNetworkHubClient } from "./client.js";
-export type { NoxAeApiClientOptions, RetryOptions } from "./http-engine.js";
+export { NoxAeApiHubNodeClient } from "./hub-node.js";
+export type {
+  NoxAeApiClientOptions,
+  RetryOptions,
+  HttpRequester,
+  HttpRequestOptions,
+  QueryValue,
+} from "./http-engine.js";
 export { NoxAeApiSocket } from "./socket.js";
 export type { NoxAeApiWsOptions, NoxAeApiWsEvent } from "./socket.js";
 

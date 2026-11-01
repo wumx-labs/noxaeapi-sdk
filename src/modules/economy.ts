@@ -1,4 +1,4 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type {
   CurrencyBalance,
   CurrencyTopEntry,
@@ -8,7 +8,7 @@ import type {
 } from "../types/models.js";
 
 export class EconomyModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** Get info about the connected economy provider (Impactor on Fabric, Vault on Bukkit/Spigot/Paper). */
   info(): Promise<EconomyInfo> {

@@ -5,6 +5,18 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.7.0] - 2026-11-01
+
+### 🚀 Major Additions — RankForge Integration & Architecture Upgrade
+* **RankForge PvP Ranking & Tier Module (`RankForgeModule`):**
+  - Added full REST client methods: `getPlayerStats`, `getPoints`, `setPoints`, `addPoints`, `removePoints`, `getTiers`, `getTop`, `save`.
+  - Added model interfaces: `RankForgeTier`, `RankForgePlayerStats`, `RankForgePointsResponse`, `RankForgePointsTransactionResult`, `RankForgeTopEntry`, `RankForgeTiersResponse`, `RankForgeSaveResponse`.
+  - Exposed via `client.rankforge` and `client.integrations.rankforge`.
+* **Velocity Hub Node Forwarding Interface (`HttpRequester`):**
+  - Generalized internal HTTP client abstraction to allow transparent request forwarding through Velocity network hubs.
+
+---
+
 ## [0.6.1] - 2026-10-24
 * Excluded internal changelog files and developer documentation from published npm tarball for a leaner package footprint.
 

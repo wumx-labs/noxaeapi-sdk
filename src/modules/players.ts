@@ -1,4 +1,4 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type {
   InventoryItem,
   OfflinePlayer,
@@ -8,7 +8,7 @@ import type {
 } from "../types/models.js";
 
 export class PlayersModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** List currently online players. */
   list(): Promise<OnlinePlayer[]> {

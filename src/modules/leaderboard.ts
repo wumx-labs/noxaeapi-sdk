@@ -1,4 +1,4 @@
-import type { HttpEngine } from "../http-engine.js";
+import type { HttpRequester } from "../http-engine.js";
 import type {
   LeaderboardEntry,
   LeaderboardSourceInfo,
@@ -23,7 +23,7 @@ import type {
  * leaderboard sources since they're built on top of them.
  */
 export class LeaderboardModule {
-  constructor(private readonly http: HttpEngine) {}
+  constructor(private readonly http: HttpRequester) {}
 
   /** List every registered leaderboard source and its availability. */
   list(): Promise<LeaderboardSourceInfo[]> {

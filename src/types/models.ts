@@ -665,3 +665,50 @@ export interface ShopGuiShopDetail {
   id: string;
   [key: string]: unknown;
 }
+
+// ── RankForge ────────────────────────────────────────────────────────────────
+
+export interface RankForgeTier {
+  name: string;
+  minPoints: number;
+  maxPoints?: number;
+  [key: string]: unknown;
+}
+
+export interface RankForgePlayerStats {
+  uuid: string;
+  points: number;
+  kills: number;
+  deaths: number;
+  kd: number;
+  dailyKills: number;
+  currentTier: RankForgeTier | null;
+  nextTier: RankForgeTier | null;
+}
+
+export interface RankForgePointsResponse {
+  uuid: string;
+  points: number;
+}
+
+export interface RankForgePointsTransactionResult {
+  uuid: string;
+  points: number;
+  success: boolean;
+}
+
+export interface RankForgeTopEntry {
+  rank: number;
+  uuid: string;
+  name?: string;
+  points: number;
+  tier?: RankForgeTier | null;
+}
+
+export interface RankForgeTiersResponse {
+  tiers: RankForgeTier[];
+}
+
+export interface RankForgeSaveResponse {
+  success: boolean;
+}
