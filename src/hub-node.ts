@@ -30,6 +30,7 @@ import {
   TabModule,
   CoreProtectModule,
   ShopGuiModule,
+  RankForgeModule,
 } from "./modules/integrations.js";
 
 /**
@@ -108,6 +109,8 @@ export class NoxAeApiHubNodeClient {
   readonly tab: TabModule;
   readonly coreprotect: CoreProtectModule;
   readonly shopgui: ShopGuiModule;
+  /** RankForge PvP ranking integration (requires RankForge soft-dep). */
+  readonly rankforge: RankForgeModule;
 
   constructor(
     hubNetwork: NetworkHubModule,
@@ -145,5 +148,6 @@ export class NoxAeApiHubNodeClient {
     this.tab = this.integrations.tab;
     this.coreprotect = this.integrations.coreprotect;
     this.shopgui = this.integrations.shopgui;
+    this.rankforge = this.integrations.rankforge;
   }
 }
